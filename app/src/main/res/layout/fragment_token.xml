@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/getTokenBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="getToken"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/getWeatherBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="getWeather"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/getRefreshTokenBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="getRefreshTokenBtn"
+        android:textAllCaps="false" />
+
+</LinearLayout>

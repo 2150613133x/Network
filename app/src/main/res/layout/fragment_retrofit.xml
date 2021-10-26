@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/retrofitGetBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="okHttpGetBtn"
+
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/retrofitGetParamsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="retrofitGetParamsBtn"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/retrofitPostBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="okHttpPostBtn"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/retrofitPostWithUrlParamBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="okHttpPostUrlParam"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/retrofitPostFileBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="retrofitPostFile"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/retrofitPostFileParamsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="retrofitPostFileParams"
+        android:textAllCaps="false" />
+
+
+</LinearLayout>
