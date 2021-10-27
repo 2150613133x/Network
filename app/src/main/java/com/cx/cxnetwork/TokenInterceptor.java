@@ -1,5 +1,6 @@
 package com.cx.cxnetwork;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by ly-chenxiao on 25/10/2021
  * Email: chenxiao@szlanyou.com
- * Description: 添加 Token的拦截器
+ * Description: 添加 Token的拦截器(用在其他拦截器的后面)
  *
  * @author: chenxiao
  */
@@ -35,18 +36,16 @@ public class TokenInterceptor implements Interceptor {
     public static final String MMKV_TOKEN_REFRESH_KEY = "refresh_token";
     public static final String BASE_URL = "https://o2sgw-bdperf.pateo.com.cn";
     public static final String AUTHORIZATION_HEADER = "Bearer ";
-
-    private MMKV mmkv;
+    private final MMKV mmkv = MMKV.mmkvWithID("id", MMKV.MULTI_PROCESS_MODE);
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        mmkv = MMKV.mmkvWithID("id", MMKV.MULTI_PROCESS_MODE);
         String token = mmkv.decodeString(MMKV_TOKEN_KEY);
-        String refreshToken = mmkv.decodeString(MMKV_TOKEN_REFRESH_KEY);
         //判断缓存内是否有 token，若有就直接作为 token 进行请求，若没有则请求 token（不是刷新）
         if (token == null) {
             token = getToken();
         }
+        String refreshToken = mmkv.decodeString(MMKV_TOKEN_REFRESH_KEY);
 
         Request originalRequest = chain.request();
         //在原始的请求头添加token
@@ -74,7 +73,7 @@ public class TokenInterceptor implements Interceptor {
                 //使用新的Token，创建新的请求
                 Request newRequest = chain.request()
                         .newBuilder()
-                        .header("Authorization", newToken)
+                        .header("Authorization", AUTHORIZATION_HEADER + newToken)
                         .build();
                 newResponse.close();
                 //重新请求
@@ -93,6 +92,7 @@ public class TokenInterceptor implements Interceptor {
      * @date 26/10/2021 9:30 AM
      */
     private synchronized String getNewToken(String refreshToken) {
+        Log.i(TAG, "执行 refreshToken");
         String result = "";
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
@@ -117,7 +117,12 @@ public class TokenInterceptor implements Interceptor {
      * @date 26/10/2021 9:31 AM
      */
     private synchronized String getToken() {
-        String result = "";
+        Log.i(TAG, "执行 getToken");
+        String result = mmkv.decodeString(MMKV_TOKEN_KEY);
+        //在外层判空的情况下再进行判空，双重锁
+        if (!TextUtils.isEmpty(result)) {
+            return result;
+        }
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
